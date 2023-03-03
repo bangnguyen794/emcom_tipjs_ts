@@ -22,7 +22,7 @@ app.use(helmet.contentSecurityPolicy({
         "script-src-attr": ["'none'"]
       }
 }));//Alow all Nguồn web bên ngoài 
-app.use(compression());
+app.use(compression());//Nén khi gửi respon tới client(Giảm băng thông truyền tải)
 app.use(express.json());
 
 //init databse

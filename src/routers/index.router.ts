@@ -5,7 +5,7 @@ import routerAccess from './access/index';
 const fs = require('fs');
 const router = Router();
 
-router.use('v1/api',routerAccess);
+router.use('/v1/api',routerAccess);
 
 router.get('',(req:Request,res:Response,next:NextFunction)=>{
     const html = fs.readFileSync(global.__dirname+'/index.html', 'utf8');
