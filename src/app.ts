@@ -25,18 +25,14 @@ app.use(helmet.contentSecurityPolicy({
 app.use(compression());
 app.use(express.json());
 
-
+//init databse
+import './dbs/inint.mongodb'; //ket noi db
+const { checkOverload }  = require('./helpers/checkconnect.mongodb');
+checkOverload();//Kiem tra ket noi co qua tai khong
 
 //Router 
-app.get('/',(req:Request,res:Response,next:NextFunction)=>{
-    const html = fs.readFileSync(global.__dirname+'/index.html', 'utf8');
-    res.setHeader('Content-Type', 'text/html');
-    res.setHeader('Content-Length', Buffer.byteLength(html));
-    res.end(html);
-
-})
-
-
+import indexRouter from "./routers/index.router";
+app.use('/', indexRouter);
 
 // const port:Number =port;
 

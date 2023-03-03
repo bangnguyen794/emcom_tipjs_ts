@@ -5,7 +5,7 @@ export interface DbConfig {
     host: string;
     port: number ;
     name: string;
-    user?: string;
+    use?: string;
     pass?: string;
 }
 export interface JwtConfig {

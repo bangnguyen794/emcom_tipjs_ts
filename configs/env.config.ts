@@ -10,7 +10,7 @@ const dev: EnvironmentConfig = {
         host: process.env.DEV_DB_HOST || 'localhost',
         port: parseInt(process.env.DEV_DB_PORT || '2707'),
         name: process.env.DEV_DB_NAME || 'Shopro',
-        user: process.env.DEV_DB_USER,
+        use: process.env.DEV_DB_USER,
         pass: process.env.DEV_DB_PASSWORD
     },
     jwt: {
@@ -27,7 +27,7 @@ const pro: EnvironmentConfig = {
         host: process.env.PRO_DB_HOST || 'localhost',
         port:parseInt( process.env.PRO_DB_PORT || '2707'),
         name: process.env.PRO_DB_NAME || 'Shopro',
-        user: process.env.PRO_DB_USER,
+        use: process.env.PRO_DB_USER,
         pass: process.env.PRO_DB_PASSWORD
     },
     jwt: {
@@ -42,4 +42,4 @@ const config: Record<ConfigKey, EnvironmentConfig> = {
   pro,
 };
 const env = process.env.NODE_ENV as ConfigKey || 'dev';
-export default config[env];
+export default config[env] as EnvironmentConfig;
