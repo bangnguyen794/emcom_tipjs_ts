@@ -5,6 +5,7 @@ const http = require('http');
 const morgan = require('morgan')
 const compression = require('compression')
 const fs = require('fs');
+const path = require('path')
 import helmet from 'helmet';
 import { Server,Socket} from "socket.io";
 
@@ -12,6 +13,7 @@ const app:Application = express();
 global.__dirname = __dirname;
 
 //inint middlewares
+app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use(morgan('dev')); // in ra log khi chạy requets :  (dev , compile, common ...)
 app.use(helmet.contentSecurityPolicy({
     directives: {
