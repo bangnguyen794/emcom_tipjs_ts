@@ -1,6 +1,6 @@
 'user strick'
 require('dotenv').config();
-import {EnvironmentConfig} from '../models/SettingEnv'
+import {EnvironmentConfig} from '../src/models/SettingEnv'
 
 const dev: EnvironmentConfig = {
     app: {

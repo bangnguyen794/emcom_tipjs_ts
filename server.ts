@@ -1,6 +1,6 @@
 import http from './src/app'
 
-import { EnvironmentConfig } from './models/SettingEnv';
+import { EnvironmentConfig } from './src/models/SettingEnv';
 import config from './configs/env.config';
 const { app: { port } }: EnvironmentConfig = config;
 
