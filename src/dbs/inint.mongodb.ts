@@ -4,7 +4,7 @@ import { EnvironmentConfig } from '../models/SettingEnv';
 import config from '../../configs/env.config';
 
 const {db : {host, use, pass, name}} = config;
-console.error(host);
+
 const stringConnect = `${host}://${use}:${pass}@cluster0.kojomqx.mongodb.net/${name}?retryWrites=true&w=majority`;
 
 class Database{

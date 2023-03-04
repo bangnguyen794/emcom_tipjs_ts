@@ -1,4 +1,4 @@
-import express, {Request,Response,NextFunction, Application} from "express";
+import express, {Application} from "express";
 // import  { NodeJS } from  '../models/global.m';
 // declare let _global: NodeJS.Global;
 const http = require('http');
@@ -8,9 +8,9 @@ const fs = require('fs');
 const path = require('path')
 import helmet from 'helmet';
 import { Server,Socket} from "socket.io";
-
 const app:Application = express();
 global.__dirname = __dirname;
+
 
 //inint middlewares
 app.use('/public', express.static(path.join(__dirname, 'public')))
@@ -24,6 +24,7 @@ app.use(helmet.contentSecurityPolicy({
 }));//Alow all Nguồn web bên ngoài 
 app.use(compression());//Nén khi gửi respon tới client(Giảm băng thông truyền tải)
 app.use(express.json());
+app.use(express.urlencoded());
 
 //init databse
 import './dbs/inint.mongodb'; //ket noi db
@@ -34,14 +35,12 @@ checkOverload();//Kiem tra ket noi co qua tai khong
 import indexRouter from "./routers/index.router";
 app.use('/', indexRouter);
 
-// const port:Number =port;
-
 const server = http.createServer(app);
 const io = new Server(server);
 //__dirname._io = io;
 io.on('connection', (socket:Socket) => {
     console.log('A user connected' + socket.id);
-  });
+});
 
 export default server;
 
