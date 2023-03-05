@@ -1,20 +1,21 @@
 ###singUp
-
 # GET  http://localhost:3004/
 
-POST http://localhost:3004/v1/api/shop/signUp HTTP/1.1
+POST http://localhost:3004/api/v1/shop/signUp
+Content-Type: application/json
 
-content-type: application/json
 { 
-"name": "sample",
-"time": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "use": "bangnguyen",
+    "pass": "123123123",
+    "email": "bangnguyen794@gmail.com"
 }
 
-# POST https://example.com/comments HTTP/1.1
-# content-type: application/json
+###exxample
+POST http://localhost:3004/v1/api/shop/signout
 
-# {
-#     "name": "sample",
-#     "time": "Wed, 21 Oct 2015 18:27:50 GMT"
-# }
+Content-Type: application/json
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
 
