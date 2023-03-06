@@ -5,9 +5,10 @@ POST http://localhost:3004/api/v1/shop/signUp
 Content-Type: application/json
 
 { 
-    "use": "bangnguyen10",
+    "use": "bangnguyen18",
     "pass": "123123123",
-    "email": "bangnguyen794@gmail.com"
+    "email": "bangnguyen794@gmail.com",
+    "name":"Bangwf"
 }
 
 ###exxample
