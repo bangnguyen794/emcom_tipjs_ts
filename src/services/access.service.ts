@@ -3,33 +3,36 @@ import  { IShop , ShopModel} from "../models/Shop.model"
 import bcrypt  from "bcrypt";
 import { KeytokenService } from "./keyToken.service";
 import {createdTokenPair, verifyToken} from "../auth/auth.untils";
-import { test } from "node:test";
+
 import { getIntoData } from "../units/index.untils";
-const crypto = require('crypto');
+const crypto= require('crypto');
 export interface IbodysignUP{
     use:string,
     email?:string,
-    pass:string
+    pass:string,
+    name:string,
+
 }
 export class AccessService  {
     static signUP = async (body:IbodysignUP):Promise<IApiResponse> => {
         const username = body.use;
         const passworld  = body.pass;
-        const email  = body.email
+        const email  = body.email;
+        const name  = body.name;
         const holerShop   = await ShopModel.findOne<IShop>({usename:username}).lean();
         if(holerShop){
            // const verifyPass = await bcrypt.compareSync(passworld,holerShop.passworld)
             return {
                 success: false,
                 statusCode: 3,
-                message: 'Shop da ton tai ispass::',
-                elements:holerShop
+                message: 'Shop da ton tai',
+               
             }
         }
 
         const bcr_pass = await bcrypt.hashSync(passworld,10);
         const new_shop:IShop = new ShopModel({
-            name:'Bangwf',
+            name:name,
             usename:username,
             passworld: bcr_pass,
             email:email,
@@ -38,48 +41,52 @@ export class AccessService  {
         });
         await new_shop.save();
         if(new_shop){
+            const userId = new_shop._id;
              // Tạo một cặp khóa mới :privateKey save trình duyệt, publicKey Lưu DB
-             const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
-                modulusLength: 4096,
-                publicKeyEncoding: {
-                type: 'pkcs1',
-                format: 'pem'
-                },
-                privateKeyEncoding: {
-                type: 'pkcs1',
-                format: 'pem'
-                }
-            });
+            //  const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+            //     modulusLength: 4096,
+            //     publicKeyEncoding: {
+            //     type: 'pkcs1',
+            //     format: 'pem'
+            //     },
+            //     privateKeyEncoding: {
+            //     type: 'pkcs1',
+            //     format: 'pem'
+            //     }
+            // });
+
+            const publicKey = crypto.randomBytes(64).toString('hex');
+            const privateKey = crypto.randomBytes(64).toString('hex');
             //console.log('publicKey_privateKey', publicKey, privateKey);
             //Lưu db 
-            const publicKeyString  = await KeytokenService.createdKeyToken({userId:username,publicKey:publicKey})
-            if(!publicKeyString) return {
+           
+            const keyStore  = await KeytokenService.createdKeyToken({userId:userId,publicKey:publicKey,privateKey:privateKey})
+            
+            
+            if(!keyStore) return {
                 success: false,
                 statusCode: 3,
-                message: 'Lỗi khởi tạo publickey'
+                message: 'Lỗi  tạo keyStore'
             }
-            console.log('pubicKeystring: ', publicKeyString);
+            console.log('keyStore: ', keyStore);
            
             //Tạo tokens [accesstoke && refesh token ] lưu trreen trình duyệt người dùng 
-            const tokens = await createdTokenPair({userId:username,email:email}, privateKey); // privateKey dùng để tạo token
+            const tokens = await createdTokenPair({userId:userId,name:name},publicKey, privateKey); // privateKey dùng để tạo token
 
             //test decor accessToken
-            const pubicKeyObject = crypto.createPublicKey(publicKeyString); //sử dụng để tạo đối tượng khóa công khai (public key object) từ chuỗi khóa công khai (publicbKey)
+            //const pubicKeyObject = crypto.createPublicKey(publicKeyString); //sử dụng để tạo đối tượng khóa công khai (public key object) từ chuỗi khóa công khai (publicbKey)
             //console.log(pubicKeyObject);
-            const decode  = await verifyToken(pubicKeyObject,tokens?.accessToken as string);
-            //console.log('------------------ ');
-            //console.log(decode);
+            const decode  = await verifyToken(publicKey,tokens?.accessToken as string);
+            console.log('------------',decode);
             return {
                 success: false,
                 statusCode: 3,
                 data:tokens as object,
-                message: 'Shop da ton tai ispass:: ',
+                message: 'Created shop success !! ',
                 elements: getIntoData({fields: ['_id','usename','email'],object: new_shop} ),
                 
             }
         }
-      
-
         return {
             success: false,
             statusCode: 4,

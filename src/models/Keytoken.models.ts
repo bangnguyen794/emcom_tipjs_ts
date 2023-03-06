@@ -6,19 +6,24 @@ const COLECTION_NAME = "keys";
 
 
 export interface IKeyToken extends Document {
-    usename:string,
+    userID:string,
     pubicKey:string,
+    privateKey:string,
     browse:IBrowse,
     status:boolean,
 }
 
 const keySchema  =  new Schema<IKeyToken>({
-    usename:{
+    userID:{
         type:String,
         required:true,
-
     },
     pubicKey:{
+        type:String,    
+        required:true,
+        
+    },
+    privateKey:{
         type:String,
         required:true,
         

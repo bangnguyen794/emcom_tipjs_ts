@@ -1,13 +1,17 @@
 import IWT from 'jsonwebtoken';
-import { resolve } from 'path';
-export const createdTokenPair = async (playLoad:object,privatKey:string)=>{
+export interface playLoadCreatedToken {
+    userId:string,
+    name?:string
+
+}
+export const createdTokenPair = async (playLoad:playLoadCreatedToken,pubicKey:string,privatKey:string)=>{
     try {
-        const accessToken = await IWT.sign(playLoad,privatKey,{
-            algorithm:'RS256',
+        const accessToken = await IWT.sign(playLoad,pubicKey,{
+            //algorithm:'RS256',
             expiresIn:'2 days'
         });
         const refeshToken =  await IWT.sign(playLoad,privatKey,{
-            algorithm:'RS256',
+            //algorithm:'RS256',
             expiresIn:'7 days'
         });
         return {accessToken, refeshToken};
@@ -17,6 +21,7 @@ export const createdTokenPair = async (playLoad:object,privatKey:string)=>{
 }
 
 export const verifyToken  = async (publicKey:string,accessToken:string) => {
+    console.log('acesstoken:: ',accessToken);
     try {
         const  decode  = await new Promise((resolve,reject)=>{
             IWT.verify(accessToken,publicKey,(err,decode)=>{

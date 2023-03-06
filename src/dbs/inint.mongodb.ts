@@ -1,6 +1,6 @@
 'use strict'
 import mongoose,{ConnectOptions} from "mongoose";
-import { EnvironmentConfig } from '../models/SettingEnv';
+
 import config from '../../configs/env.config';
 
 const {db : {host, use, pass, name}} = config;

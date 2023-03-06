@@ -3,6 +3,7 @@ import  { KeytokenModels, IKeyToken } from "../models/Keytoken.models";
 export interface IbodycreatedKeyToken{
     userId:string,
     publicKey:string,
+    privateKey:string
     
 }
 export class KeytokenService {
@@ -10,14 +11,16 @@ export class KeytokenService {
     static createdKeyToken = async (pram:IbodycreatedKeyToken) =>{
         try {
             const pubicKeyString = pram.publicKey.toString();
+            const  privateKeyString  = pram.publicKey.toString();
             const userId = pram.userId;
             const token:IKeyToken = new  KeytokenModels({
-                usename: userId,
+                userID: userId,
                 pubicKey:pubicKeyString,
+                privateKey:privateKeyString
             });
     
            await token.save();
-            return token?pubicKeyString:null
+            return token?token.pubicKey:null
         } catch (error) {
             return null
         }
