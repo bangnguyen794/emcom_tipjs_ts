@@ -19,4 +19,5 @@ export interface IApiResponse {
     message?:string,
     statusCode:statusCode,// {2: Thành công, 1: lỗi try catch, 3:Lỗi nguồn đầu vào, 4: Lỗi xử lý }
     elements?: Record<string, any>;
+    test?:object;
 }

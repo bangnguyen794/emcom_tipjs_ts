@@ -1,8 +1,16 @@
 import { IncomingHttpHeaders } from 'http';
-import {IBrowse} from '../models/Browser.model'
+import {pick} from 'lodash';
+import { IBrowse } from '../models/Browser.model';
+interface IbodyIntoData{
+    fields: string[];
+    object: { [key: string]: any };
+  }
+  
+export const getIntoData = ({fields =[],object  = {}}:IbodyIntoData) =>{
+    return pick(object,fields);
+};
 
-export default function GetIBrowser(headers:IncomingHttpHeaders):IBrowse {
-   
+export const  GetIBrowser = (headers:IncomingHttpHeaders):IBrowse => {
     return {
         userAgent: headers['user-agent'] as string,
         platform: headers['accept-language'] as string,
@@ -11,6 +19,5 @@ export default function GetIBrowser(headers:IncomingHttpHeaders):IBrowse {
         appCodeName: headers['app-code-name'] as string,
         productSub: headers['product-sub'] as string,
       
-    };
-    
+    }; 
 }

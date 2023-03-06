@@ -1,17 +1,18 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Document, Schema} from "mongoose";
 import { IBrowse } from "./Browser.model";
 
 const DOCUMENT_NAME = "Key";
 const COLECTION_NAME = "keys"; 
-export interface IKey{
+
+
+export interface IKeyToken extends Document {
     usename:string,
     pubicKey:string,
-    privateKey:string,
     browse:IBrowse,
     status:boolean,
 }
 
-const keySchema  =  new Schema<IKey>({
+const keySchema  =  new Schema<IKeyToken>({
     usename:{
         type:String,
         required:true,
@@ -22,12 +23,6 @@ const keySchema  =  new Schema<IKey>({
         required:true,
         
     },
-    privateKey:{
-        type:String,
-        required:true,
-
-    },
-    
     status:{
         type:Boolean,
         default:true,
@@ -42,4 +37,4 @@ const keySchema  =  new Schema<IKey>({
     collection:COLECTION_NAME,
     timestamps:true
 });
-export  default model<IKey>(DOCUMENT_NAME,keySchema);
+export const KeytokenModels =  mongoose.model<IKeyToken>(DOCUMENT_NAME,keySchema);

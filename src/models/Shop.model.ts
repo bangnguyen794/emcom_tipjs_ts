@@ -1,15 +1,17 @@
-import {Schema, model} from "mongoose";
+import mongoose, {Document, Schema} from "mongoose";
+
 
 const DOCUMENT_NAME = 'Shop';
 const COLECTION_NAME = "Shops";
-
- export  interface IShop {
+type _type = 'google|facebook|web|zalo|khac'
+ export  interface IShop extends Document {
     name:string,
     usename:string,
     passworld: string,
     email:string,
     address: object[],
     status:boolean,
+    type:_type,
     createdAt?:Date
 
  } 
@@ -40,10 +42,11 @@ const COLECTION_NAME = "Shops";
         type:Boolean,
         default:false
     },
-   
-    
+    type:{
+        type:String,
+    },
  },{
     collection:COLECTION_NAME,
     timestamps:true
  });
- export default model<IShop>(DOCUMENT_NAME,shopSchema);
+ export const ShopModel = mongoose.model<IShop>(DOCUMENT_NAME,shopSchema);
