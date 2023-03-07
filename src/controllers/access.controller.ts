@@ -4,7 +4,7 @@ import { AccessService,IbodysignUP } from "../services/access.service";
  class accessController {
     signUP = async (req:Request,res:Response,next:NextFunction) =>{
         try{
-            console.log(`[p]::SignUP `, req.body);
+            //console.log(`[p]::SignUP `, req.body);
             const body:IbodysignUP =  req.body;
             return res.status(200).json(await AccessService.signUP(body));
         }catch(err){
@@ -14,7 +14,7 @@ import { AccessService,IbodysignUP } from "../services/access.service";
 
     signOut = async (req:Request,res:Response,next:NextFunction)=>{
         try{
-            console.log(`[p]::SignpOut `, req.body);
+            //console.log(`[p]::SignpOut `, req.body);
             return res.status(200).json({
                 success:true,
                 datas:[],

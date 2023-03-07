@@ -1,11 +1,11 @@
 import mongoose, { Document, Schema } from "mongoose"
 const DOCUMENT_NAME = "ApiKey";
 const COLECTION_NAME = "ApiKeys"; 
-type type_permissions = '000|002|003'
+type type_permissions = '0000|0001|0002'
 export interface IApiKey extends Document{
         key:string,
         status:boolean,
-        permissions:type_permissions
+        permissions:[string]
     }
 const apiKeySchema  = new Schema<IApiKey>({
         key:{
@@ -14,16 +14,16 @@ const apiKeySchema  = new Schema<IApiKey>({
         },
         status:{
             type:Boolean,
-            default:false
+            default:true
         },
         permissions:{
-            type:String,
+            type:[String],
             required:true,
-            enum: ['000','001','002']
+            enum: ['0000','0001','0002']
         }
     },{
         collection:COLECTION_NAME,
         timestamps:true
     });
 const apiKeyModel = mongoose.model(COLECTION_NAME,apiKeySchema) ; 
- export default apiKeyModel;
+export default apiKeyModel;

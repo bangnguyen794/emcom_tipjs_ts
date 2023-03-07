@@ -3,7 +3,6 @@ import  { IShop , ShopModel} from "../models/Shop.model"
 import bcrypt  from "bcrypt";
 import { KeytokenService } from "./keyToken.service";
 import {createdTokenPair, verifyToken} from "../auth/auth.untils";
-
 import { getIntoData } from "../units/index.untils";
 const crypto= require('crypto');
 export interface IbodysignUP{
@@ -15,11 +14,12 @@ export interface IbodysignUP{
 }
 export class AccessService  {
     static signUP = async (body:IbodysignUP):Promise<IApiResponse> => {
-        const username = body.use;
+
+        const use = body.use;
         const passworld  = body.pass;
         const email  = body.email;
         const name  = body.name;
-        const holerShop   = await ShopModel.findOne<IShop>({usename:username}).lean();
+        const holerShop   = await ShopModel.findOne<IShop>({username:use}).lean();
         if(holerShop){
            // const verifyPass = await bcrypt.compareSync(passworld,holerShop.passworld)
             return {
@@ -33,7 +33,7 @@ export class AccessService  {
         const bcr_pass = await bcrypt.hashSync(passworld,10);
         const new_shop:IShop = new ShopModel({
             name:name,
-            usename:username,
+            username:use,
             passworld: bcr_pass,
             email:email,
             type:'khac',

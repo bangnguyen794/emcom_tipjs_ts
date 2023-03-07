@@ -1,8 +1,8 @@
-###singUp
-# GET  http://localhost:3004/
-
+@url_dev = http://localhost:3004;
+##singUp
 POST http://localhost:3004/api/v1/shop/signUp
 Content-Type: application/json
+x-api-key: 7601e39eb5eb3fbf0cef1718ff3b2c75d43f4e2d4629d876e47dec0f808c1dd73ed5c3da5da6bb75c5b53e890e8c8864d1011a7efb2b00a9efb956809bc01511
 
 { 
     "use": "bangnguyen18",
@@ -10,7 +10,6 @@ Content-Type: application/json
     "email": "bangnguyen794@gmail.com",
     "name":"Bangwf"
 }
-
 ###exxample
 POST http://localhost:3004/v1/api/shop/signout
 

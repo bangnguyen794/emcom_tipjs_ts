@@ -5,7 +5,8 @@ const http = require('http');
 const morgan = require('morgan')
 const compression = require('compression')
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
+const expressMongoSanitize = require('express-mongo-sanitize'); // Injection Mongodb
 import helmet from 'helmet';
 import { Server,Socket} from "socket.io";
 const app:Application = express();
@@ -24,8 +25,9 @@ app.use(helmet.contentSecurityPolicy({
 }));//Alow all Nguồn web bên ngoài 
 app.use(compression());//Nén khi gửi respon tới client(Giảm băng thông truyền tải)
 app.use(express.json());
-app.use(express.urlencoded());
-
+app.use(express.urlencoded({extended:true})); //The extended option allows to choose between parsing the URL-encoded data with the querystring library (when false) or the qs library (when true).
+// Sanitize user input to prevent MongoDB injection attacks
+app.use(expressMongoSanitize());
 //init databse
 import './dbs/inint.mongodb'; //ket noi db
 const { checkOverload }  = require('./helpers/checkconnect.mongodb');

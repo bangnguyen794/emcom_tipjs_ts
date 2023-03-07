@@ -1,19 +1,18 @@
 import mongoose, {Document, Schema} from "mongoose";
-
+const mongoSanitize = require('express-mongo-sanitize');
 
 const DOCUMENT_NAME = 'Shop';
 const COLECTION_NAME = "Shops";
 type _type = 'google|facebook|web|zalo|khac'
  export  interface IShop extends Document {
     name:string,
-    usename:string,
+    username:string,
     passworld: string,
     email:string,
     address: object[],
     status:boolean,
     type:_type,
-    createdAt?:Date
-
+  
  } 
  const shopSchema =new Schema<IShop>({
     name:{
@@ -21,12 +20,14 @@ type _type = 'google|facebook|web|zalo|khac'
         required:true,
         maxlength:15,
         trim:true,
+        set: mongoSanitize.sanitize
     },
-    usename:{
+    username:{
         type:String,
         required: true,
         maxlength:150,
         unique:true,
+        set: mongoSanitize.sanitize
     },
     passworld:{
         type:String,
@@ -36,14 +37,16 @@ type _type = 'google|facebook|web|zalo|khac'
         type:String,
         trim:true,
         lowercase:true,
+        set: mongoSanitize.sanitize
 
     },
     status:{
         type:Boolean,
-        default:false
+        default:false,
     },
     type:{
         type:String,
+        set: mongoSanitize.sanitize
     },
  },{
     collection:COLECTION_NAME,
