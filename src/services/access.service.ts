@@ -4,6 +4,8 @@ import bcrypt  from "bcrypt";
 import { KeytokenService } from "./keyToken.service";
 import {createdTokenPair, verifyToken} from "../auth/auth.untils";
 import { getIntoData } from "../units/index.untils";
+import { BadRequestError } from "../core/error.response";
+import { SuccessResponse } from "../core/success.response";
 const crypto= require('crypto');
 export interface IbodysignUP{
     use:string,
@@ -19,15 +21,20 @@ export class AccessService  {
         const passworld  = body.pass;
         const email  = body.email;
         const name  = body.name;
+        // const a:any = undefined;
+        // if(a.nam=='1'){
+            
+        // }
         const holerShop   = await ShopModel.findOne<IShop>({username:use}).lean();
         if(holerShop){
            // const verifyPass = await bcrypt.compareSync(passworld,holerShop.passworld)
-            return {
-                success: false,
-                statusCode: 3,
-                message: 'Shop da ton tai',
+           throw new  BadRequestError('Error: Shop da ton tai');
+            // return {
+            //     success: false,
+            //     statusCode: 3,
+            //     message: 'Shop da ton tai',
                
-            }
+            // }
         }
 
         const bcr_pass = await bcrypt.hashSync(passworld,10);
@@ -78,6 +85,7 @@ export class AccessService  {
             //console.log(pubicKeyObject);
             const decode  = await verifyToken(publicKey,tokens?.accessToken as string);
             console.log('------------',decode);
+           
             return {
                 success: false,
                 statusCode: 3,

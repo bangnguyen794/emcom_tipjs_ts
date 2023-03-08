@@ -1,10 +1,10 @@
-import express, {Application} from "express";
+import express, {Application, NextFunction, Request, Response} from "express";
 // import  { NodeJS } from  '../models/global.m';
 // declare let _global: NodeJS.Global;
 const http = require('http');
 const morgan = require('morgan')
 const compression = require('compression')
-const fs = require('fs');
+//const fs = require('fs');
 const path = require('path');
 const expressMongoSanitize = require('express-mongo-sanitize'); // Injection Mongodb
 import helmet from 'helmet';
@@ -35,7 +35,27 @@ checkOverload();//Kiem tra ket noi co qua tai khong
 
 //Router 
 import indexRouter from "./routers/index.router";
+import { ErrorResponse } from "./core/error.response";
 app.use('/', indexRouter);
+
+//hander error
+// 
+app.use((req:Request,res:Response,next:NextFunction)=>{
+    console.log('Vô trong ');
+    const error = new ErrorResponse('not found', 404);
+    next(error);
+});
+
+
+app.use((error:ErrorResponse,req:Request,res:Response,next:NextFunction)=>{
+   const statusCode =  error.status || 500;
+    return res.status(statusCode).json({
+        status:'error',
+        code: statusCode,
+        message:error.message || 'Internal Server error'
+    })
+});
+
 
 const server = http.createServer(app);
 const io = new Server(server);
