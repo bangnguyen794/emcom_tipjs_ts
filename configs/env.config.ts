@@ -1,5 +1,5 @@
 'user strick'
-require('dotenv').config();
+
 import {EnvironmentConfig} from '../src/models/SettingEnv'
 
 const dev: EnvironmentConfig = {
@@ -9,7 +9,7 @@ const dev: EnvironmentConfig = {
     db: {
         host: process.env.DEV_DB_HOST || 'localhost',
         port: parseInt(process.env.DEV_DB_PORT || '2707'),
-        name: process.env.DEV_DB_NAME || 'Shopro',
+        name: process.env.DEV_DB_NAME || 'ShopDev',
         use: process.env.DEV_DB_USER,
         pass: process.env.DEV_DB_PASSWORD
     },
@@ -26,7 +26,7 @@ const pro: EnvironmentConfig = {
     db: {
         host: process.env.PRO_DB_HOST || 'localhost',
         port:parseInt( process.env.PRO_DB_PORT || '2707'),
-        name: process.env.PRO_DB_NAME || 'Shopro',
+        name: process.env.PRO_DB_NAME || 'ShopPro',
         use: process.env.PRO_DB_USER,
         pass: process.env.PRO_DB_PASSWORD
     },
@@ -42,4 +42,6 @@ const config: Record<ConfigKey, EnvironmentConfig> = {
   pro,
 };
 const env = process.env.NODE_ENV as ConfigKey || 'dev';
+console.log(config[env]);
+
 export default config[env] as EnvironmentConfig;

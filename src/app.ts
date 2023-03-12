@@ -10,6 +10,7 @@ const expressMongoSanitize = require('express-mongo-sanitize'); // Injection Mon
 import helmet from 'helmet';
 import { Server,Socket} from "socket.io";
 const app:Application = express();
+require('dotenv').config();
 global.__dirname = __dirname;
 
 
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true})); //The extended option allows to choose between parsing the URL-encoded data with the querystring library (when false) or the qs library (when true).
 // Sanitize user input to prevent MongoDB injection attacks
 app.use(expressMongoSanitize());
+
 //init databse
 import './dbs/inint.mongodb'; //ket noi db
 const { checkOverload }  = require('./helpers/checkconnect.mongodb');
@@ -39,7 +41,6 @@ import { ErrorResponse } from "./core/error.response";
 app.use('/', indexRouter);
 
 //hander error
-// 
 app.use((req:Request,res:Response,next:NextFunction)=>{
     console.log('Vô trong ');
     const error = new ErrorResponse('not found', 404);
